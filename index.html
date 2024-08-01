@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LRW Games</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #e0e0e0;
+    }
+    .login-container, .iframe-container, .overlay {
+      display: none;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    .login-container {
+      background-color: white;
+      color: #333;
+    }
+    .login-container h1 {
+      margin-bottom: 20px;
+    }
+    .login-container input {
+      display: block;
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin: 0 auto 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+      transition: background-color 0.3s;
+    }
+    .login-container input.error {
+      background-color: #fdd;
+    }
+    .login-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #ccc;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .login-container button.active {
+      background-color: #4CAF50;
+    }
+    .login-container button.inactive {
+      background-color: #a9a9a9;
+    }
+    .login-container button:hover {
+      background-color: #45a049;
+    }
+    .iframe-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      background-color: #121212;
+    }
+    .iframe-container iframe {
+      flex: 1; /* Faz o iframe ocupar todo o espaço disponível */
+      width: 100%;
+      border: none;
+    }
+    .overlay {
+      display: none;
+      background-color: rgba(0, 0, 0, 0.5); /* Menos transparente que antes */
+      color: #fff;
+      padding: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      backdrop-filter: blur(8px); /* Adiciona o efeito de desfoque */
+    }
+    .overlay p {
+      margin: 0 0 20px;
+    }
+    .overlay button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .overlay button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container" id="login-container">
+    <h1>Login</h1>
+    <form id="login-form" onsubmit="return validateLogin()">
+      <input type="text" id="username" placeholder="Usuário" oninput="checkLoginFields()">
+      <input type="password" id="password" placeholder="Senha" oninput="checkLoginFields()">
+      <button id="login-button" class="inactive" type="submit" disabled>Login</button>
+    </form>
+  </div>
+  <div class="iframe-container" id="iframe-container">
+    <iframe src="" id="iframe-content"></iframe>
+    <!-- O painel de rodapé foi removido -->
+  </div>
+  <div class="overlay" id="overlay">
+    <p>O objetivo deste site é exclusivamente para uso privado.<br>
+    A intenção não é de maneira alguma infringir direitos autorais do site original <a href="https://www.jogos360.com.br/" target="_blank">Jogos360</a>.<br>
+    O propósito é contornar restrições, como listas negras de instituições educacionais, permitindo assim o acesso aos jogos em um ambiente controlado e privado.<br>
+    A utilização deste site não visa promover qualquer forma de violação legal ou pirataria.</p>
+    <button onclick="removeOverlay()">Continuar</button>
+  </div>
+  <script>
+    // Inicialmente, exibe o painel de login
+    document.getElementById('login-container').style.display = 'flex';
+    document.getElementById('iframe-container').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+
+    function validateLogin() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username === 'contafree' && password === '2024') {
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('iframe-container').style.display = 'flex';
+        document.getElementById('overlay').style.display = 'flex'; // Mostra o overlay
+        document.getElementById('iframe-content').src = 'https://www.jogos360.com.br/';
+        return false; // Impede o envio do formulário
+      } else {
+        alert('Usuário ou senha incorretos.');
+        return false; // Impede o envio do formulário
+      }
+    }
+
+    function checkLoginFields() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const loginButton = document.getElementById('login-button');
+
+      if (username && password) {
+        loginButton.classList.add('active');
+        loginButton.classList.remove('inactive');
+        loginButton.disabled = false;
+      } else {
+        loginButton.classList.remove('active');
+        loginButton.classList.add('inactive');
+        loginButton.disabled = true;
+      }
+    }
+
+    function removeOverlay() {
+      document.getElementById('overlay').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
